@@ -7,6 +7,7 @@ import { ArrowUpRight } from "lucide-react";
 import type { Project } from "@/lib/types";
 import type { Locale } from "@/lib/types";
 import { PROJECT_ICONS } from "./project-icons";
+import { GithubStars } from "./GithubStars";
 
 interface ProjectCardProps {
   project: Project;
@@ -68,7 +69,10 @@ export function ProjectCard({ project, locale, statusLabel, ctaLabel }: ProjectC
         {statusLabel}
       </span>
 
-      <h3 className="text-xl font-semibold text-[var(--fg)]">{project.name}</h3>
+      <div className="flex items-center justify-between gap-2">
+        <h3 className="text-xl font-semibold text-[var(--fg)]">{project.name}</h3>
+        {project.links.github ? <GithubStars repoUrl={project.links.github} /> : null}
+      </div>
       <p className="mt-2 flex-1 text-sm leading-relaxed text-[var(--fg-muted)]">
         {locale === "ja" ? project.tagline.ja : project.tagline.en}
       </p>

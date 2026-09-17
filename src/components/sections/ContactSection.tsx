@@ -7,6 +7,7 @@ import { socialLinks, contactEmail } from "@/data/social";
 import { Container } from "@/components/ui/Container";
 import { RevealOnScroll } from "@/components/animations/RevealOnScroll";
 import { Button } from "@/components/ui/Button";
+import { ContactForm } from "@/components/sections/ContactForm";
 
 export function ContactSection({ headingLevel = "h2" }: { headingLevel?: "h1" | "h2" }) {
   const { t } = useLanguage();
@@ -65,6 +66,24 @@ export function ContactSection({ headingLevel = "h2" }: { headingLevel?: "h1" | 
         </RevealOnScroll>
 
         <RevealOnScroll delay={0.15}>
+          <p className="mt-2 text-sm text-[var(--fg-muted)]">{t.contact.formIntro}</p>
+        </RevealOnScroll>
+
+        <RevealOnScroll delay={0.2}>
+          <div className="mt-8 flex justify-center">
+            <ContactForm fallbackEmail={contactEmail} />
+          </div>
+        </RevealOnScroll>
+
+        <RevealOnScroll delay={0.25}>
+          <div className="mt-10 flex items-center justify-center gap-4 text-xs uppercase tracking-[0.2em] text-[var(--fg-muted)]">
+            <span className="h-px w-10 bg-[var(--border)]" aria-hidden="true" />
+            {t.contact.formOr}
+            <span className="h-px w-10 bg-[var(--border)]" aria-hidden="true" />
+          </div>
+        </RevealOnScroll>
+
+        <RevealOnScroll delay={0.3}>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             {socialLinks.map((link) => (
               <Button key={link.url} href={link.url} external variant="primary">

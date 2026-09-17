@@ -10,6 +10,7 @@ export interface Dictionary {
     skills: string;
     certifications: string;
     philosophy: string;
+    blog: string;
     contact: string;
     menu: string;
     close: string;
@@ -92,6 +93,32 @@ export interface Dictionary {
     emailUnavailable: string;
     copy: string;
     emailCopied: string;
+    formIntro: string;
+    formName: string;
+    formEmail: string;
+    formMessage: string;
+    formSubmit: string;
+    formSending: string;
+    formSuccess: string;
+    formError: string;
+    formErrorFallback: string;
+    formNameRequired: string;
+    formEmailInvalid: string;
+    formMessageRequired: string;
+    formOr: string;
+  };
+  blog: {
+    title: string;
+    kicker: string;
+    intro: string;
+    readMore: string;
+    backToBlog: string;
+    publishedOn: string;
+    updatedOn: string;
+    minRead: string;
+    notFoundTitle: string;
+    notFoundBody: string;
+    tableOfContents: string;
   };
   footer: {
     rights: string;

@@ -15,6 +15,7 @@ import {
   Wrench,
   Award,
   Lightbulb,
+  Newspaper,
   Mail,
   Github,
   Moon,
@@ -173,6 +174,7 @@ export function CommandPalette() {
       { id: "skills", label: t.nav.skills, href: "/#skills", icon: Wrench },
       { id: "certifications", label: t.nav.certifications, href: "/#certifications", icon: Award },
       { id: "philosophy", label: t.nav.philosophy, href: "/#philosophy", icon: Lightbulb },
+      { id: "blog", label: t.nav.blog, href: "/blog", icon: Newspaper },
       { id: "contact", label: t.nav.contact, href: "/#contact", icon: Mail },
     ].map((item) => ({
       id: `nav-${item.id}`,

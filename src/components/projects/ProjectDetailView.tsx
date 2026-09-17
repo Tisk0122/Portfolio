@@ -9,6 +9,7 @@ import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { RevealOnScroll } from "@/components/animations/RevealOnScroll";
 import { PROJECT_ICONS } from "@/components/projects/project-icons";
+import { GithubStars } from "@/components/projects/GithubStars";
 
 const DETAIL_ORDER = [
   "overview",
@@ -95,6 +96,9 @@ export function ProjectDetailView({ project }: { project: Project }) {
                   <Github size={16} aria-hidden="true" />
                   {t.projects.viewGithub}
                 </Button>
+              ) : null}
+              {project.links.github ? (
+                <GithubStars repoUrl={project.links.github} className="self-center" />
               ) : null}
             </div>
           </RevealOnScroll>

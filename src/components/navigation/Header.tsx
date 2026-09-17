@@ -19,6 +19,7 @@ type NavKey = keyof Dictionary["nav"] & (
   | "skills"
   | "certifications"
   | "philosophy"
+  | "blog"
   | "contact"
 );
 
@@ -29,6 +30,7 @@ const NAV_ITEMS: { key: NavKey; href: string }[] = [
   { key: "skills", href: "/#skills" },
   { key: "certifications", href: "/#certifications" },
   { key: "philosophy", href: "/#philosophy" },
+  { key: "blog", href: "/blog" },
   { key: "contact", href: "/#contact" },
 ];
 

@@ -10,6 +10,7 @@ import { PageTransition } from "@/components/animations/PageTransition";
 import { TerminalBoot } from "@/components/effects/TerminalBoot";
 import { CursorGlow } from "@/components/effects/CursorGlow";
 import { BackToTop } from "@/components/effects/BackToTop";
+import { WebVitalsReporter } from "@/components/effects/WebVitalsReporter";
 import { themeInitScript } from "@/lib/theme-context";
 import { socialLinks } from "@/data/social";
 
@@ -100,6 +101,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <AppProviders>
           <TerminalBoot />
           <CursorGlow />
+          <WebVitalsReporter />
           <ScrollProgress />
           <Header />
           <SectionDots />
