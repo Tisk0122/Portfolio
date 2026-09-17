@@ -14,20 +14,11 @@ export const metadata: Metadata = {
     url: `${siteUrl}/about`,
     title: "About | Tisk",
     description,
-    images: [
-      {
-        url: "/images/og-image.png",
-        alt: "Taisuke Tokuda / Tisk",
-        width: 1200,
-        height: 630,
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "About | Tisk",
     description,
-    images: ["/images/og-image.png"],
   },
 };
 

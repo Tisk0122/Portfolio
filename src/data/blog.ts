@@ -18,6 +18,46 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "security-ai-v0-7-disproving-my-own-result",
+    title: {
+      ja: "スコアが上がったのに「学習できていない」と結論づけた話 — Security AI v0.7",
+      en: "When the score went up but I concluded it hadn't actually learned anything — Security AI v0.7",
+    },
+    excerpt: {
+      ja: "ログの並び順を理解できているように見えたモデル。でも、それを狙い撃ちで検証するテストを作ったら、まったく別の結論になった。",
+      en: "A model that looked like it had learned to understand event order in logs. Then I built a test designed specifically to check that claim — and the answer flipped.",
+    },
+    publishedAt: "2026-09-17",
+    tags: ["Security AI", "Machine Learning", "Research"],
+    relatedProjectSlug: "security-ai",
+    body: [
+      {
+        ja: "Security AIのv0.7で取り組んだ問いはシンプルです。「ログの中のイベントが起きた\"順序\"を、このモデルは本当に理解しているのか?」。例えば、監査ログを無効化した後に設定を変更するのは怪しい兆候ですが、順序を逆にすれば話は変わります。単語の集合(bag-of-events)だけを見ているモデルには、この違いは原理的に区別できないはずです。",
+        en: "Security AI v0.7 set out to answer one simple question: does the model actually understand the order events happened in a log? Disabling audit logging and then changing a config is suspicious — but reverse the order and the story changes. A model that only sees the bag of events, with no sense of order, shouldn't be able to tell the difference.",
+      },
+      {
+        ja: "順序情報(Positional Encoding)を与えたモデルと、あえて与えなかったモデルを、パラメータ数まで完全に揃えて(45,667個で同一)比較しました。結果はunseen_structure(未知の構造)テストで0.399→0.620という大きな改善。「順序を学習できた」と結論づけたくなる数字でした。",
+        en: "I compared a model given positional encoding against one deliberately denied it, with parameter count matched exactly at 45,667 either way. The result: a jump from 0.399 to 0.620 on the unseen_structure test. That's the kind of number that tempts you to declare victory and say the model learned to use order.",
+      },
+      {
+        ja: "でも、その結論を出す前に、もっと厳しいテストを2つ用意していました。1つ目はorder_pair評価: 同じイベント集合で、順序だけが違い、ラベルも違うペアだけを集めた評価です。bag-of-eventsしか見ていないモデルは原理的に見分けられないはずの問題です。2つ目はorder_sensitivity: イベント順をシャッフルしたときに、予測がどれだけ変わるかを測る指標です。",
+        en: "But before drawing that conclusion, I had two harsher tests waiting. First, an order_pair evaluation: pairs built from the same set of events, differing only in order, with different labels — something a bag-of-events model should be structurally incapable of telling apart. Second, order_sensitivity: how much predictions change when you shuffle the event order.",
+      },
+      {
+        ja: "結果は予想と逆でした。order_pair精度は0.367で、順序情報を持たないモデルの0.483より低かったのです。さらにイベント順をシャッフルしても予測の92%が変化しませんでした(order_sensitivity=0.077)。つまり、unseen_structureでの大きな改善は、順序理解によるものではなかったということです。",
+        en: "The results went the other way. Order_pair accuracy came in at 0.367 — lower than the order-blind model's 0.483. And shuffling event order left 92% of predictions unchanged (order_sensitivity = 0.077). In other words, the big unseen_structure improvement had nothing to do with understanding order.",
+      },
+      {
+        ja: "今のところ一番もっともらしい説明は、Positional Encodingを足したことが、順序理解というより「入力表現に多様性を与える正則化的な効果」を持っただけ、というものです(これはまだ検証していない仮説です)。数字だけを見て「モデルが順序を理解した」と発表していたら、完全に間違った結論を世に出すところでした。",
+        en: "The most plausible explanation right now is that adding positional encoding acted more like a regularizer — adding diversity to the input representation — than as a genuine order signal (this is still an untested hypothesis). If I'd stopped at the headline number and announced \"the model learned to understand order,\" I would have published a flatly wrong conclusion.",
+      },
+      {
+        ja: "この経験から得た一番の教訓は、精度の数字そのものより「その指標が測りたいものを本当に測っているか」を疑う仕組みを持つことの大切さです。v0.8では、固定の正弦波Positional Encodingではなく学習可能な位置埋め込みを試し、order_sensitivityが本当に改善するのかを直接検証する予定です。",
+        en: "The biggest takeaway wasn't about the accuracy number at all — it was the value of building tools that specifically question whether a metric measures what you think it measures. For v0.8, the plan is to try a learned positional embedding instead of a fixed sinusoidal one, and directly test whether order_sensitivity actually improves.",
+      },
+    ],
+  },
+  {
     slug: "security-ai-v0-4-honest-report",
     title: {
       ja: "自作Transformerで脆弱性分類AIを作って、v0.4で分かった「悪くなった」こと",
