@@ -56,21 +56,12 @@ export const metadata: Metadata = {
     title: "Taisuke Tokuda / Tisk — Independent Developer",
     description:
       "Tisk's personal portfolio — building web applications, tools, and digital experiences.",
-    images: [
-      {
-        url: "/images/og-image.png",
-        alt: "Taisuke Tokuda / Tisk — Independent Developer",
-        width: 1200,
-        height: 630,
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Taisuke Tokuda / Tisk — Independent Developer",
     description:
       "Tisk's personal portfolio — building web applications, tools, and digital experiences.",
-    images: ["/images/og-image.png"],
   },
   icons: {
     icon: [
