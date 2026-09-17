@@ -11,21 +11,27 @@ import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { RevealOnScroll } from "@/components/animations/RevealOnScroll";
 
-/** Counts from 0 up to {@link to} once it scrolls into view. */
+/**
+ * Counts from 0 up to {@link to} once it scrolls into view.
+ *
+ * Renders the real target number on the very first render (so SSR output,
+ * no-JS clients, and crawlers always see the correct number, never a
+ * stuck "0"), then — once mounted client-side and the element actually
+ * scrolls into view — briefly resets to 0 and animates up as a purely
+ * decorative flourish. If the animation never gets to run for any reason,
+ * the visible number is still correct.
+ */
 function CountUp({ to }: { to: number }) {
   const reducedMotion = useReducedMotion();
-  const [value, setValue] = useState(() => (reducedMotion ? to : 0));
+  const [value, setValue] = useState(to);
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "-40px" });
+  const hasAnimated = useRef(false);
 
   useEffect(() => {
-    if (!inView || value === to) return;
-    if (reducedMotion) {
-      // Reduce-motion users shouldn't land on "0"; show the final number.
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setValue(to);
-      return;
-    }
+    if (!inView || hasAnimated.current || reducedMotion) return;
+    hasAnimated.current = true;
+
     let frame = 0;
     const start = performance.now();
     const duration = 900;
@@ -37,7 +43,7 @@ function CountUp({ to }: { to: number }) {
     };
     frame = requestAnimationFrame(step);
     return () => cancelAnimationFrame(frame);
-  }, [inView, reducedMotion, to, value]);
+  }, [inView, reducedMotion, to]);
 
   return <span ref={ref}>{value}</span>;
 }
