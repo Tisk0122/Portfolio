@@ -19,7 +19,13 @@ function CountUp({ to }: { to: number }) {
   const inView = useInView(ref, { once: true, margin: "-40px" });
 
   useEffect(() => {
-    if (!inView || reducedMotion || value === to) return;
+    if (!inView || value === to) return;
+    if (reducedMotion) {
+      // Reduce-motion users shouldn't land on "0"; show the final number.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setValue(to);
+      return;
+    }
     let frame = 0;
     const start = performance.now();
     const duration = 900;
