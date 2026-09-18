@@ -11,10 +11,21 @@ export function generateStaticParams() {
   return getSortedProjects().map((project) => ({ slug: project.slug }));
 }
 
+// Only the slugs above exist. Anything else is a router-level 404 — decided
+// before any streaming/loading kicks in (which was committing a 200 status
+// first and then failing to swap in the 404 for unmatched slugs).
+export const dynamicParams = false;
+
 export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
   const { slug } = await params;
   const project = getProjectBySlug(slug);
-  if (!project) return { title: "Project not found" };
+  // Also triggered here (not just in the page body below): this route has a
+  // loading.tsx, which makes Next.js stream the response. If notFound() is
+  // only called in the page component, the 200 status can already be
+  // committed before the async render reaches it. Calling notFound() during
+  // metadata generation runs before streaming starts, so the 404 status is
+  // set correctly.
+  if (!project) notFound();
 
   const description = `${project.description.en} / ${project.description.ja}`;
 

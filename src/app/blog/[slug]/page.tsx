@@ -11,10 +11,15 @@ export function generateStaticParams() {
   return getSortedBlogPosts().map((post) => ({ slug: post.slug }));
 }
 
+// Only the slugs above exist. Anything else is a router-level 404 — decided
+// before any streaming kicks in. (Projects had the same pattern: a loading.tsx
+// was committing a 200 status before the page body's notFound() could run.)
+export const dynamicParams = false;
+
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
   const { slug } = await params;
   const post = getBlogPostBySlug(slug);
-  if (!post) return { title: "Post not found" };
+  if (!post) notFound();
 
   const description = `${post.excerpt.en} / ${post.excerpt.ja}`;
 

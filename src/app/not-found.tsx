@@ -1,15 +1,27 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { ArrowLeft, FolderGit2 } from "lucide-react";
 import { useLanguage } from "@/lib/language-context";
 import { Container } from "@/components/ui/Container";
 
 export default function NotFound() {
   const { t, locale } = useLanguage();
-  const pathname = usePathname();
-  const attempted = pathname && pathname !== "/" ? pathname : "/unknown";
+  // The global not-found boundary is prerendered as a single static shell
+  // (it doesn't know the requested path at build time), so usePathname()
+  // here would report a different value during SSR than the real URL the
+  // client is on — causing a hydration mismatch on truly unmatched routes.
+  // Render a fixed placeholder for the initial (server-matching) render,
+  // then swap in the real path client-side after mount.
+  const [attempted, setAttempted] = useState("/unknown");
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.location.pathname !== "/") {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setAttempted(window.location.pathname);
+    }
+  }, []);
 
   return (
     <div className="flex min-h-[75vh] items-center py-28">
